@@ -1,0 +1,33 @@
+name: Download Geyser-Spigot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Create folder
+        run: mkdir -p geyser
+
+      - name: Download Geyser-Spigot
+        run: |
+          curl -L \
+            -o geyser/Geyser-Spigot.zip \
+            'https://productionresultssa11.blob.core.windows.net/actions-results/0d06c919-cae7-469b-a279-78a6897d88b1/workflow-job-run-8b1f308e-e71b-5f4d-a014-9f96ce90dddc/artifacts/e9dd294ac91eca97268840505e1d37176406801933fcec1509d2624ebae2525c.zip?rscd=attachment%3B+filename%3D%22Geyser-Spigot.zip%22&rsct=application%2Fzip&se=2026-09-03T12%3A19%3A39Z&sig=rS6morlPm9TPklMCgcSwZpcK%2BvADqJtSznkUKMOdbGM%3D&ske=2026-09-03T14%3A46%3A30Z&skoid=ca7593d4-ee42-46cd-af88-8b886a2f84eb&sks=b&skt=2026-09-03T10%3A46%3A30Z&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skv=2025-11-05&sp=r&spr=https&sr=b&st=2026-09-03T12%3A09%3A34Z&sv=2025-11-05'
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add geyser/Geyser-Spigot.zip
+          git diff --cached --quiet || git commit -m "Add Geyser-Spigot"
+          git push
